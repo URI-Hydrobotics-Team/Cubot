@@ -1,31 +1,37 @@
+#include <Servo.h>
+
+// Create a Servo object
+Servo servoMotor;
+Servo servoMotor1;
+Servo servoMotor2;
+
+
 void setup() {
+  // Initialize the Serial communication
+  Serial.begin(9600);
+  //Serial.begin(9600);
 
-  pinMode(10, OUTPUT);   //set pin as output , blue led
-  pinMode(11, OUTPUT);   //set pin as output , red led
-  pinMode(12, OUTPUT);   //set pin as output , yellow led
+  // Attach the servo motor to pin 9
+  servoMotor.attach(9);
+  servoMotor1.attach(9);
+  servoMotor2.attach(10);
 
-  Serial.begin(9600);    //start serial communication @9600 bps
+}
+
+void loop() {
+   // Move the servo motor from 0 to 180 degrees in steps of 1 degree
+  for (int angle = 0; angle <= 180; angle++) {
+    servoMotor.write(angle);
+    servoMotor1.write(angle);
+    servoMotor2.write(angle);
+    delay(15); // Wait for the servo to reach the desired angle
   }
 
-void loop(){
-  
-  if(Serial.available()){  //id data is available to read
-
-    char val = Serial.read();
-
-    if(val == 'r'){       //if r received
-      digitalWrite(11, HIGH); //turn on red led
-      }
-    if(val == 'b'){       //if b received
-      digitalWrite(10, HIGH); //turn on blue led
-      }
-    if(val == 'y'){       //if y received
-      digitalWrite(12, HIGH); //turn on yellow led
-      }
-    if(val == 'f'){       //if f received
-      digitalWrite(11, LOW); //turn off all led
-      digitalWrite(12, LOW);
-      digitalWrite(10, LOW);
-      }      
-    }
+  // Move the servo motor from 180 to 0 degrees in steps of 1 degree
+  for (int angle = 180; angle >= 0; angle--) {
+    servoMotor.write(angle);
+    servoMotor1.write(angle);
+    servoMotor2.write(angle);
+    delay(15); // Wait for the servo to reach the desired angle
   }
+}
